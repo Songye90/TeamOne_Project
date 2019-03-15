@@ -1,0 +1,19 @@
+# Created by .ignore support plugin (hsz.mobi)
+### Exanple user template template
+### Exanple user template
+
+# IntelliJ project files
+.idea
+*.iml
+out
+gen
+.classpath
+*.eml
+target
+*.log
+*.log.*
+generatorConfig.xml
+.DS_Store
+*.cache
+*.lock
+Test*.java

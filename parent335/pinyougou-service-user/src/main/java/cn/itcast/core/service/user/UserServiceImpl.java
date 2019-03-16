@@ -1,9 +1,13 @@
 package cn.itcast.core.service.user;
 
 import cn.itcast.core.dao.user.UserDao;
+import cn.itcast.core.entity.PageResult;
 import cn.itcast.core.pojo.user.User;
+import cn.itcast.core.pojo.user.UserQuery;
 import cn.itcast.core.utils.md5.MD5Util;
 import com.alibaba.dubbo.config.annotation.Service;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.jms.core.JmsTemplate;
@@ -13,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import javax.jms.*;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -57,10 +62,31 @@ public class UserServiceImpl implements UserService{
             }
         });
     }
-
+    @Transactional
     @Override
     public void deleteOne(Long id) {
         userDao.deleteOne(id);
+    }
+    @Transactional
+    @Override
+    public void deleteMany(Long[] ids) {
+        for (Long id : ids) {
+            userDao.deleteOne(id);
+        }
+    }
+
+    @Override
+    public PageResult search(Integer page, Integer rows,User user) {
+        PageHelper.startPage(page,rows);
+        PageHelper.orderBy("id desc");
+        UserQuery query = new UserQuery();
+        UserQuery.Criteria criteria = query.createCriteria();
+
+        if (user!=null) {
+        criteria.andUsernameLike("%"+user.getUsername()+"%");
+        }
+        Page<User> userList = (Page<User>) userDao.selectByExample(query);
+        return new PageResult(userList.getTotal(),userList.getResult());
     }
 
     /**

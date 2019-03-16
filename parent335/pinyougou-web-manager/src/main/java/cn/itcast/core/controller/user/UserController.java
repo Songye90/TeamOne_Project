@@ -13,12 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/user")
 public class UserController {
     /* 用户表 tb_user表中添加is_delete字段 冻结用户对用户进行逻辑删除 "0" 表示可用 "1"表示已删除
-    *  ALTER TABLE tb_user ADD is_delete  VARCHAR(50) NOT NULL;
-    * */
+     *  ALTER TABLE tb_user ADD is_delete  VARCHAR(50) NOT NULL;
+     * */
     @Reference
     UserService userService;
+
     @RequestMapping("/deleteOne.do")
-    public Result deleteOne(Long id){
+    public Result deleteOne(Long id) {
         try {
             userService.deleteOne(id);
             return new Result(true, "保存成功");
@@ -28,10 +29,20 @@ public class UserController {
         }
 
     }
-    @RequestMapping("/search.do")
-    public PageResult search(@RequestBody User user){
 
-        return null;
+    @RequestMapping("/search.do")
+    public PageResult search(Integer page, Integer rows, @RequestBody User user) {
+        return userService.search(page, rows, user);
     }
 
+    @RequestMapping("/deleteMany.do")
+    public Result deleteMany(Long[] ids) {
+        try {
+            userService.deleteMany(ids);
+            return new Result(true, "保存成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false, "保存失败");
+        }
+    }
 }

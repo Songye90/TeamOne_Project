@@ -1,5 +1,6 @@
 package cn.itcast.core.service.user;
 
+import cn.itcast.core.entity.PageResult;
 import cn.itcast.core.pojo.user.User;
 
 public interface UserService {
@@ -18,5 +19,9 @@ public interface UserService {
     public void add(User user, String smscode);
 
     void deleteOne(Long id);
+
+    PageResult search(Integer page, Integer rows,User user);
+
+    void deleteMany(Long[] ids);
 
 }

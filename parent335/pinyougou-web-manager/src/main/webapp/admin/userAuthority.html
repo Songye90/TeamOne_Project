@@ -27,7 +27,7 @@
     <script type="text/javascript" src="../js/service/userService.js"></script>
 </head>
 
-<body class="hold-transition skin-red sidebar-mini" ng-app="pinyougou" ng-controller="sellerController">
+<body class="hold-transition skin-red sidebar-mini" ng-app="pinyougou" ng-controller="userController">
 <!-- .box-body -->
 <div class="box box-primary">
     <div class="box-header with-border">
@@ -43,8 +43,8 @@
 
             <div class="box-tools pull-right">
                 <div class="has-feedback">
-                    用户名称：<input  >
-                    <button class="btn btn-default"  onclick="findOne()" >查询</button>
+                    用户名称：<input  ng-model="searchEntity.username" >
+                    <button class="btn btn-default"  ng-click="search()" >查询</button>
                 </div>
             </div>
             <!--工具栏/-->

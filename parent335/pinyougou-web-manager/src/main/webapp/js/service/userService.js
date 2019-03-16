@@ -1,13 +1,13 @@
 //服务层
 app.service('userService',function($http){
 
-    //查询实体
+    //删除单个
     this.deleteOne=function(id){
         return $http.get('../user/deleteOne.do?id='+id);
     }
 
 
-    //删除
+    //删除多个
     this.deleteMany=function(ids){
         return $http.get('../user/deleteMany.do?ids='+ids);
     }

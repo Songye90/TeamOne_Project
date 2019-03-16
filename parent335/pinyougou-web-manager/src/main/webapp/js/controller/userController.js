@@ -1,5 +1,5 @@
 //控制层
-app.controller('uesrController' ,function($scope,$controller   ,userService){
+app.controller('userController' ,function($scope,$controller   ,userService){
 
     $controller('baseController',{$scope:$scope});//继承
 

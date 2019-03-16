@@ -44,6 +44,6 @@
     <dubbo:annotation package="cn.itcast.core.controller"/>
     <!--服务消费方默认校验提供方是否存在-->
     <!--连接的超时时间：单位毫秒-->
-    <dubbo:consumer timeout="6000000"/>
+    <dubbo:consumer timeout="6000000" check="false"/>
 
 </beans>

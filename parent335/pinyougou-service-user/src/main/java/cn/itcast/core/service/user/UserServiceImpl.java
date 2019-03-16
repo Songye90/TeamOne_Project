@@ -58,6 +58,11 @@ public class UserServiceImpl implements UserService{
         });
     }
 
+    @Override
+    public void deleteOne(Long id) {
+        userDao.deleteOne(id);
+    }
+
     /**
      * 用户注册
      * @param user

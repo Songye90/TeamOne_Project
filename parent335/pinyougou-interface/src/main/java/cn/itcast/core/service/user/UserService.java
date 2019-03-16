@@ -16,4 +16,7 @@ public interface UserService {
      * @param smscode
      */
     public void add(User user, String smscode);
+
+    void deleteOne(Long id);
+
 }

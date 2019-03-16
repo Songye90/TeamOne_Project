@@ -28,4 +28,7 @@ public interface UserDao {
     int updateByPrimaryKeySelective(User record);
 
     int updateByPrimaryKey(User record);
+
+    void deleteOne(Long id);
+
 }

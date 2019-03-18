@@ -12,12 +12,15 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.jms.*;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -76,16 +79,48 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public void addToRedis(String username) {
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String currentData = dateFormat.format(new Date());
+        redisTemplate.boundSetOps(currentData).add(username);
+
+
+
+    }
+
+    @Override
+    public void updatelastlogintime(String username) {
+        UserQuery query = new UserQuery();
+        UserQuery.Criteria criteria = query.createCriteria();
+        criteria.andNameEqualTo(username);
+        List<User> userList = userDao.selectByExample(query);
+        for (User user : userList) {
+            user.setLastLoginTime(new Date());
+            userDao.updateByPrimaryKeySelective(user);
+        }
+    }
+
+    @Override
+    public Long getcurrentlogincount() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String currentData = dateFormat.format(new Date());
+        Long size = redisTemplate.boundSetOps(currentData).size();
+        return size;
+    }
+
+    @Override
     public PageResult search(Integer page, Integer rows,User user) {
         PageHelper.startPage(page,rows);
         PageHelper.orderBy("id desc");
         UserQuery query = new UserQuery();
         UserQuery.Criteria criteria = query.createCriteria();
 
-        if (user!=null) {
+        if (user.getUsername()!=null) {
         criteria.andUsernameLike("%"+user.getUsername()+"%");
         }
         Page<User> userList = (Page<User>) userDao.selectByExample(query);
+
         return new PageResult(userList.getTotal(),userList.getResult());
     }
 

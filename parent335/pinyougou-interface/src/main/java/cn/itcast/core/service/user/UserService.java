@@ -24,4 +24,10 @@ public interface UserService {
 
     void deleteMany(Long[] ids);
 
+    void addToRedis(String username);
+
+    void updatelastlogintime(String username);
+
+    Long getcurrentlogincount();
+
 }

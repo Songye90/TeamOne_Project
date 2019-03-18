@@ -4,7 +4,7 @@ import cn.itcast.core.entity.PageResult;
 import cn.itcast.core.entity.Result;
 import cn.itcast.core.pojo.user.User;
 import cn.itcast.core.service.user.UserService;
-import jdk.nashorn.internal.ir.annotations.Reference;
+import com.alibaba.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-    /* 用户表 tb_user表中添加is_delete字段 冻结用户对用户进行逻辑删除 "0" 表示可用 "1"表示已删除
-     *  ALTER TABLE tb_user ADD is_delete  VARCHAR(50) NOT NULL;
+    /* 冻结用户对用户表status使用状态修改 Y正常 N非正常
+     *
      * */
     @Reference
     UserService userService;
@@ -32,7 +32,9 @@ public class UserController {
 
     @RequestMapping("/search.do")
     public PageResult search(Integer page, Integer rows, @RequestBody User user) {
-        return userService.search(page, rows, user);
+
+        PageResult result = userService.search(page, rows, user);
+        return result;
     }
 
     @RequestMapping("/deleteMany.do")

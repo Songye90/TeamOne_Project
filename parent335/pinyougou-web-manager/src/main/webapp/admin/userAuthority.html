@@ -44,7 +44,7 @@
             <div class="box-tools pull-right">
                 <div class="has-feedback">
                     用户名称：<input  ng-model="searchEntity.username" >
-                    <button class="btn btn-default"  ng-click="search()" >查询</button>
+                    <button class="btn btn-default"  ng-click="reloadList()" >查询</button>
                 </div>
             </div>
             <!--工具栏/-->
@@ -58,7 +58,7 @@
                     </th>
                     <th class="sorting_asc">用户名</th>
                     <th class="sorting">联系电话</th>
-                    <th class="sorting">联系邮箱</th>
+                    <th class="sorting">使用状态</th>
                     <th class="sorting">创建时间</th>
 
                     <th class="text-center">操作</th>
@@ -69,11 +69,12 @@
                     <td><input  type="checkbox"></td>
                     <td>{{entity.username}}</td>
                     <td>{{entity.phone}}</td>
-                    <td>{{entity.email}}</td>
+                    <td>{{entity.status=="N"?"已冻结":"正常使用"}}</td>
                     <td>{{entity.created}}</td>
 
                     <td class="text-center">
                         <button type="button" ng-click="deleteOne(entity.id)" class="btn bg-olive btn-xs"  >冻结</button>
+                        <button type="button" ng-click="hot(entity.lastLoginTime)" class="btn bg-olive btn-xs"  >活跃度</button>
                     </td>
                 </tr>
                 </tbody>

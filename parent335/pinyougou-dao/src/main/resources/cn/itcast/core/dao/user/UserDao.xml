@@ -87,7 +87,7 @@
     <if test="fields == null" >
       id, username, password, phone, email, created, updated, source_type, nick_name, name, 
       status, head_pic, qq, account_balance, is_mobile_check, is_email_check, sex, user_level, 
-      points, experience_value, birthday, last_login_time,is_delete
+      points, experience_value, birthday, last_login_time
     </if>
     <if test="fields != null" >
       ${fields}
@@ -484,7 +484,7 @@
   </update>
 
 
-  <delete id="deleteOne" parameterType="int" >
-      updete tb_user SET is_delete="1" where id=#{id}
+  <delete id="deleteOne" parameterType="long" >
+      UPDATE tb_user SET status='N' where id=#{id}
   </delete>
 </mapper>

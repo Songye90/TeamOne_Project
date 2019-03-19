@@ -16,6 +16,9 @@ app.service('userService', function ($http) {
         return $http.post('../user/search.do?page=' + page + "&rows=" + rows, searchEntity);
     }
 
+    this.findHot=function (date) {
+        return $http.get("../user/findUserHotByDate.do?date="+date);
+    }
     this.excel = function (startTime,endTime,consumesType,conPaymentStatus) {
         return $http.get("../user/exportExcel.do?startTime=" + startTime
             + "&endTime=" + endTime + "&consumesType="

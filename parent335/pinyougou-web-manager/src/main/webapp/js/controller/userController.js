@@ -39,7 +39,13 @@ app.controller('userController', function ($scope, $controller, userService) {
     $scope.hot = function (message) {
         alert("用户上次登陆时间：" + message)
     }
-    $scope.Excel = {};//定义导出表格相关信息对象
+    $scope.findHot=function(date) {
+        userService.findHot(date).success(function (response) {
+            $scope.entity=response;
+        })
+
+    }
+/*    $scope.Excel = {};//定义导出表格相关信息对象
     $scope.excel = function exportExcel() {
         if (confirm("确认把该搜索结果导出Excel表格?")) {
 
@@ -48,14 +54,14 @@ app.controller('userController', function ($scope, $controller, userService) {
             var consumesType = $scope.Excel.consumesType;
             var conPaymentStatus = $scope.Excel.conPaymentStatus;
 
-            userService.excel(startTime,endTime,consumesType,conPaymentStatus).success(function (response) {
+            userService.excel(startTime, endTime, consumesType, conPaymentStatus).success(function (response) {
                 if (response.flag) {
                     alert(response.message);
                 } else {
                     alert(response.message);
                 }
-            })
+            });
 
         }
-    }
-
+    }*/
+});

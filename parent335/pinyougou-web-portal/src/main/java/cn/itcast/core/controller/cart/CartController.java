@@ -7,7 +7,6 @@ import cn.itcast.core.pojo.order.OrderItem;
 import cn.itcast.core.service.cart.CartService;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
-import jdk.nashorn.internal.ir.annotations.Reference;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;

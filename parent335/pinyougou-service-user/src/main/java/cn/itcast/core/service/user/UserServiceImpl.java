@@ -3,6 +3,7 @@ package cn.itcast.core.service.user;
 import cn.itcast.core.dao.user.UserDao;
 import cn.itcast.core.entity.PageResult;
 import cn.itcast.core.pojo.user.User;
+import cn.itcast.core.pojo.user.UserHot;
 import cn.itcast.core.pojo.user.UserQuery;
 import cn.itcast.core.utils.md5.MD5Util;
 import com.alibaba.dubbo.config.annotation.Service;
@@ -38,6 +39,7 @@ public class UserServiceImpl implements UserService{
     @Resource
     private UserDao userDao;
 
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     /**
      * 用户获取短信验证码
      * @param phone
@@ -81,8 +83,8 @@ public class UserServiceImpl implements UserService{
     @Override
     public void addToRedis(String username) {
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String currentData = dateFormat.format(new Date());
+        redisTemplate.expire(currentData,7,TimeUnit.DAYS);
         redisTemplate.boundSetOps(currentData).add(username);
 
 
@@ -102,11 +104,28 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public Long getcurrentlogincount() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    public Integer getcurrentlogincount() {
         String currentData = dateFormat.format(new Date());
         Long size = redisTemplate.boundSetOps(currentData).size();
-        return size;
+        return size.intValue();
+       
+    }
+
+    @Override
+    @Scheduled(cron =  "00 59 23 * * ?")
+    public void savecurrentlogin() {
+        UserHot userHot = new UserHot();
+        String onlinedate = dateFormat.format(new Date());
+        userHot.setOnlinedata(onlinedate);
+        Integer onlinenum = getcurrentlogincount();
+        userHot.setOnlinenum(onlinenum);
+        userDao.saveUserHot(userHot);
+
+    }
+
+    @Override
+    public UserHot findUserHotByDate(String date) {
+        return userDao.findUserHotByDate(date);
     }
 
     @Override

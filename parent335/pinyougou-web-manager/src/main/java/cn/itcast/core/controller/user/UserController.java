@@ -3,6 +3,7 @@ package cn.itcast.core.controller.user;
 import cn.itcast.core.entity.PageResult;
 import cn.itcast.core.entity.Result;
 import cn.itcast.core.pojo.user.User;
+import cn.itcast.core.pojo.user.UserHot;
 import cn.itcast.core.service.user.UserService;
 import com.alibaba.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +19,10 @@ public class UserController {
     @Reference
     UserService userService;
 
+    @RequestMapping("/findUserHotByDate.do")
+    public UserHot findUserHotByDate(String date){
+        return userService.findUserHotByDate(date);
+    }
     @RequestMapping("/deleteOne.do")
     public Result deleteOne(Long id) {
         try {

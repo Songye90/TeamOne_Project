@@ -134,4 +134,14 @@ public class BrandServiceImpl implements BrandService {
     public List<Map> selectOptionList() {
         return brandDao.selectOptionList();
     }
+
+    /**
+     * 申请品牌
+     * @param brand
+     */
+    @Override
+    public void saveBrand(Brand brand) {
+        brand.setStatus("0");
+        brandDao.insertSelective(brand);
+    }
 }

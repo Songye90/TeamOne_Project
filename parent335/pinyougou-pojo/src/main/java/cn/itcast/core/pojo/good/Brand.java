@@ -3,6 +3,10 @@ package cn.itcast.core.pojo.good;
 import java.io.Serializable;
 
 public class Brand implements Serializable {
+
+    /**
+     * 品牌id
+     */
     private Long id;
 
     /**
@@ -14,6 +18,23 @@ public class Brand implements Serializable {
      * 品牌首字母
      */
     private String firstChar;
+    /**
+     * 品牌状态
+     */
+    private String status;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
 
     private static final long serialVersionUID = 1L;
 

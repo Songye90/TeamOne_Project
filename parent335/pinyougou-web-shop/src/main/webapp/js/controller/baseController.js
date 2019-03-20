@@ -42,7 +42,6 @@ app.controller("baseController",function($scope){
 			if(i>0){
 				value += ",";
 			}
-			
 			value += jsonObj[i][key];
 		}
 		return value;
@@ -55,7 +54,6 @@ app.controller("baseController",function($scope){
 				return list[i];
 			}
 		}
-		
 		return null;
 	}
 	

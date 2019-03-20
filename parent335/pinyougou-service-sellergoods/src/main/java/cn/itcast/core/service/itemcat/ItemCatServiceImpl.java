@@ -19,6 +19,14 @@ public class ItemCatServiceImpl implements ItemCatService {
     private RedisTemplate<String, Object> redisTemplate;
 
     /**
+     * 分类申请
+     * @param itemCat
+     */
+    public void add(ItemCat itemCat) {
+        itemCatDao.insertSelective(itemCat);
+    }
+
+    /**
      * 商品分类的列表查询
      * @param parentId
      * @return

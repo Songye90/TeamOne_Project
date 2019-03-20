@@ -61,4 +61,10 @@ public interface BrandService {
      * @return
      */
     List<Map> selectOptionList();
+
+    /**
+     * 申请品牌
+     * @param brand
+     */
+    void saveBrand(Brand brand);
 }

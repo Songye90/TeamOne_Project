@@ -1,13 +1,13 @@
 //列表数据加载
 $(function () {
-    // $.getJSON("../data/shoplist.json",function (data) {
+    // $.getJSON("../datetostring/shoplist.json",function (datetostring) {
     //     $.each(data,function (index,type) {
     //         $("#listall").append(
     //             "<li>"+ type["name"] + "</li>"
     //         );
     //     })
     // });
-    // $.getJSON("../data/shoplist-data.json", function (data) {
+    // $.getJSON("../datetostring/shoplist-datetostring.json", function (datetostring) {
     //     $.each(data, function (index, list) {
     //         $("#goods-list").append(
     //             "<li class='yui3-u-1-4'><div class='list-wrap' ><div class='p-img'><img src='" + list["img"] + "' alt=''></div><div class='price'><strong><em>¥</em> <i>" + list["n-price"] + "</i></strong></div>"

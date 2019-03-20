@@ -32,7 +32,7 @@
 
 
     <!--用来操作Redis的客户端对象：redisTemplate-->
-    <!--<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">-->
+    <!--<bean id="redisTemplate" class="org.springframework.datetostring.redis.core.RedisTemplate">-->
         <!--<property name="connectionFactory" ref="JedisConnectionFactory" />-->
     <!--</bean>-->
 </beans>

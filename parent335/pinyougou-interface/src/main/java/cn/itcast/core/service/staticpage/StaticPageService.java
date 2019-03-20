@@ -7,4 +7,6 @@ public interface StaticPageService {
      * @param id
      */
     public void getHtml(Long id);
+
+
 }

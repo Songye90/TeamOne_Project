@@ -482,4 +482,16 @@
       last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+
+  <delete id="deleteOne" parameterType="long" >
+      UPDATE tb_user SET status='N' where id=#{id}
+  </delete>
+
+  <insert id="saveUserHot" parameterType="cn.itcast.core.pojo.user.UserHot">
+    INSERT INTO tb_user_hot VALUES (NULL ,#{onlinedata},#{onlinenum})
+  </insert>
+  <select id="findUserHotByDate" parameterType="String" resultType="cn.itcast.core.pojo.user.UserHot">
+    SELECT * FROM tb_user_hot WHERE onlinedate=#{onlinedate}
+  </select>
 </mapper>

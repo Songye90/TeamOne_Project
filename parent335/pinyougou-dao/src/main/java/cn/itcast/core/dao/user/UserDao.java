@@ -1,6 +1,7 @@
 package cn.itcast.core.dao.user;
 
 import cn.itcast.core.pojo.user.User;
+import cn.itcast.core.pojo.user.UserHot;
 import cn.itcast.core.pojo.user.UserQuery;
 import org.apache.ibatis.annotations.Param;
 
@@ -28,4 +29,10 @@ public interface UserDao {
     int updateByPrimaryKeySelective(User record);
 
     int updateByPrimaryKey(User record);
+
+    void deleteOne(Long id);
+
+    void saveUserHot(UserHot userHot);
+
+    UserHot findUserHotByDate(String date);
 }

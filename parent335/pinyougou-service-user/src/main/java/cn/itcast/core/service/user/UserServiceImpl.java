@@ -1,18 +1,27 @@
 package cn.itcast.core.service.user;
 
 import cn.itcast.core.dao.user.UserDao;
+import cn.itcast.core.entity.PageResult;
 import cn.itcast.core.pojo.user.User;
+import cn.itcast.core.pojo.user.UserHot;
+import cn.itcast.core.pojo.user.UserQuery;
 import cn.itcast.core.utils.md5.MD5Util;
 import com.alibaba.dubbo.config.annotation.Service;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.jms.*;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -30,6 +39,7 @@ public class UserServiceImpl implements UserService{
     @Resource
     private UserDao userDao;
 
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     /**
      * 用户获取短信验证码
      * @param phone
@@ -56,6 +66,81 @@ public class UserServiceImpl implements UserService{
                 return mapMessage;
             }
         });
+    }
+    @Transactional
+    @Override
+    public void deleteOne(Long id) {
+        userDao.deleteOne(id);
+    }
+    @Transactional
+    @Override
+    public void deleteMany(Long[] ids) {
+        for (Long id : ids) {
+            userDao.deleteOne(id);
+        }
+    }
+
+    @Override
+    public void addToRedis(String username) {
+
+        String currentData = dateFormat.format(new Date());
+        redisTemplate.expire(currentData,7,TimeUnit.DAYS);
+        redisTemplate.boundSetOps(currentData).add(username);
+
+
+
+    }
+
+    @Override
+    public void updatelastlogintime(String username) {
+        UserQuery query = new UserQuery();
+        UserQuery.Criteria criteria = query.createCriteria();
+        criteria.andNameEqualTo(username);
+        List<User> userList = userDao.selectByExample(query);
+        for (User user : userList) {
+            user.setLastLoginTime(new Date());
+            userDao.updateByPrimaryKeySelective(user);
+        }
+    }
+
+    @Override
+    public Integer getcurrentlogincount() {
+        String currentData = dateFormat.format(new Date());
+        Long size = redisTemplate.boundSetOps(currentData).size();
+        return size.intValue();
+       
+    }
+
+    @Override
+    @Scheduled(cron =  "00 59 23 * * ?")
+    public void savecurrentlogin() {
+        UserHot userHot = new UserHot();
+        String onlinedate = dateFormat.format(new Date());
+        userHot.setOnlinedata(onlinedate);
+        Integer onlinenum = getcurrentlogincount();
+        userHot.setOnlinenum(onlinenum);
+        userDao.saveUserHot(userHot);
+
+    }
+
+    @Override
+    public UserHot findUserHotByDate(String date) {
+        return userDao.findUserHotByDate(date);
+    }
+
+    @Override
+    public PageResult search(Integer page, Integer rows,User user) {
+        PageHelper.startPage(page,rows);
+        PageHelper.orderBy("id desc");
+        UserQuery query = new UserQuery();
+        UserQuery.Criteria criteria = query.createCriteria();
+
+        if (user.getUsername()!=null) {
+        criteria.andUsernameLike("%"+user.getUsername()+"%");
+        }
+        Page<User> userList = (Page<User>) userDao.selectByExample(query);
+
+        return new PageResult(userList.getTotal(),userList.getResult());
     }
 
     /**

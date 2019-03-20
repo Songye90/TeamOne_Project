@@ -32,7 +32,7 @@ public class RedisTask {
     private SpecificationOptionDao specificationOptionDao;
 
     // cron：该方法执行时间的表达式
-    @Scheduled(cron = "00 36 12 28 02 *")
+    @Scheduled(cron = "0 0/3 * * * ?")
     public void autoItemCatToRedis(){
         List<ItemCat> list = itemCatDao.selectByExample(null);
         if(list != null && list.size() > 0){
@@ -44,7 +44,7 @@ public class RedisTask {
         }
     }
 
-    @Scheduled(cron = "00 36 12 28 02 *")
+    @Scheduled(cron =  "0 0/3 * * * ?")
     public void autoBrandsAndSpecsCatToRedis(){
         // 列表查询的过程中将数据同步到redis中
         List<TypeTemplate> list = typeTemplateDao.selectByExample(null);

@@ -1,4 +1,4 @@
-package cn.itcast.core.controller.user;
+package cn.itcast.core.user;
 
 import cn.itcast.core.entity.Result;
 import cn.itcast.core.pojo.user.User;

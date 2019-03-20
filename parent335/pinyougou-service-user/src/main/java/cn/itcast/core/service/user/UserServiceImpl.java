@@ -180,6 +180,15 @@ public class UserServiceImpl implements UserService{
         }
     }
 
+    @Override
+    public User findOneByUserName(String username) {
+        UserQuery query = new UserQuery();
+        UserQuery.Criteria criteria = query.createCriteria();
+        criteria.andNameEqualTo(username);
+        List<User> users = userDao.selectByExample(query);
+        return users.get(0);
+    }
+
     /**
      * 用户 我的订单查询
      * @param page

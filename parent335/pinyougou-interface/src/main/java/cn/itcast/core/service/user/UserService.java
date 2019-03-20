@@ -46,4 +46,8 @@ public interface UserService {
      * @return
      */
     public PageResult findAll(Integer page, Integer rows, String userId);
+
+
+    User findOneByUserName(String username);
+
 }

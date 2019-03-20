@@ -33,10 +33,15 @@ public class UserDetailServiceImpl implements UserDetailsService {
         //程序走到这里肯定已经登陆成功了，把已登录用户的用户名加入redis
         userService.addToRedis(username);
         userService.updatelastlogintime(username);
-        Set<GrantedAuthority> authorities = new HashSet<>();
-        SimpleGrantedAuthority grantedAuthority = new SimpleGrantedAuthority("ROLE_USER");
-        authorities.add(grantedAuthority);
-        User user = new User(username, "", authorities);
-        return user;
+        cn.itcast.core.pojo.user.User loginUser=userService.findOneByUserName(username);
+        if(loginUser != null && "Y".equals(loginUser.getStatus())){ // 用户存在并且是审核通过后的用户
+            Set<GrantedAuthority> authorities = new HashSet<>();
+            SimpleGrantedAuthority grantedAuthority = new SimpleGrantedAuthority("ROLE_USER");
+            authorities.add(grantedAuthority);
+            User user = new User(username, "", authorities);
+            return user;
+        }
+        return null;
+
     }
 }

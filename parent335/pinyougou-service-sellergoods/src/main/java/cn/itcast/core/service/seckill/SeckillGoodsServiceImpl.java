@@ -107,7 +107,9 @@ public class SeckillGoodsServiceImpl implements SeckillGoodsService {
      */
     @Override
     public void addNewSeckill(SeckillGoods seckillGoods) {
+        if (seckillGoods!=null &&"".equals(seckillGoods)) {
         seckillGoods.setStatus("0");
         seckillGoodsDao.insertSelective(seckillGoods);
+        }
     }
 }

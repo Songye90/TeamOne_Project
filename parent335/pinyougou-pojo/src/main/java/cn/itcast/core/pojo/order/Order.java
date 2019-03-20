@@ -1,5 +1,7 @@
 package cn.itcast.core.pojo.order;
 
+import org.apache.solr.client.solrj.beans.Field;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -23,21 +25,25 @@ public class Order implements Serializable {
     /**
      * 邮费。精确到2位小数;单位:元。如:200.07，表示:200元7分
      */
+
     private String postFee;
 
     /**
      * 状态：1、未付款，2、已付款，3、未发货，4、已发货，5、交易成功，6、交易关闭,7、待评价
      */
+    @Field("order_status")
     private String status;
 
     /**
      * 订单创建时间
      */
+    @Field("order_createTime")
     private Date createTime;
 
     /**
      * 订单更新时间
      */
+
     private Date updateTime;
 
     /**

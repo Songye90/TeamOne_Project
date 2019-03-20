@@ -1,5 +1,7 @@
 package cn.itcast.core.pojo.order;
 
+import org.apache.solr.client.solrj.beans.Field;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -10,6 +12,7 @@ public class OrderItem implements Serializable {
     /**
      * 商品id
      */
+
     private Long itemId;
 
     /**
@@ -20,26 +23,31 @@ public class OrderItem implements Serializable {
     /**
      * 订单id
      */
+    @Field("orderItem_orderId")
     private Long orderId;
 
     /**
      * 商品标题
      */
+    @Field("orderItem_title")
     private String title;
 
     /**
      * 商品单价
      */
+    @Field("orderItem_price")
     private BigDecimal price;
 
     /**
      * 商品购买数量
      */
+    @Field("orderItem_num")
     private Integer num;
 
     /**
      * 商品总金额
      */
+    @Field("orderItem_totalFee")
     private BigDecimal totalFee;
 
     /**

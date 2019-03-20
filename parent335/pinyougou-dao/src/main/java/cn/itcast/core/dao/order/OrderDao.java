@@ -2,8 +2,10 @@ package cn.itcast.core.dao.order;
 
 import cn.itcast.core.pojo.order.Order;
 import cn.itcast.core.pojo.order.OrderQuery;
+import cn.itcast.core.pojo.order.ShopOrder;
 import org.apache.ibatis.annotations.Param;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface OrderDao {
@@ -28,4 +30,14 @@ public interface OrderDao {
     int updateByPrimaryKeySelective(Order record);
 
     int updateByPrimaryKey(Order record);
+
+    List<ShopOrder> search(ShopOrder shopOrder);
+
+    List<ShopOrder> searchByDay(ShopOrder shopOrder);
+
+    List<ShopOrder> countByMouth();
+
+    List<ShopOrder> countByQuarter();
+
+    List<ShopOrder> countByYear();
 }

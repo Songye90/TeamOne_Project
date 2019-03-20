@@ -17,6 +17,10 @@ app.service('goodsService',function($http){
 	this.add=function(entity){
 		return  $http.post('../goods/add.do',entity );
 	}
+	//申请秒杀
+	this.saveseckill=function(searchEntity){
+		return  $http.post('../seckillgoods/add.do',searchEntity );
+	}
 	//修改 
 	this.update=function(entity){
 		return  $http.post('../goods/update.do',entity );

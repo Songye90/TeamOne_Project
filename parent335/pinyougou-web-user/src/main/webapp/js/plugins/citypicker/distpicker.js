@@ -57,7 +57,7 @@
       $.each([PROVINCE, CIRY, DISTRICT], $.proxy(function (i, type) {
         if (data[type]) {
           options[type] = data[type];
-          this['$' + type] = $select.filter('[data-' + type + ']');
+          this['$' + type] = $select.filter('[datetostring-' + type + ']');
         } else {
           this['$' + type] = length > i ? $select.eq(i) : null;
         }
@@ -166,7 +166,7 @@
         list.push(
           '<option' +
           ' value="' + (n.address && n.code ? n.address : '') + '"' +
-          ' data-code="' + (n.code || '') + '"' +
+          ' datetostring-code="' + (n.code || '') + '"' +
           (n.selected ? ' selected' : '') +
           '>' +
             (n.address || '') +
@@ -243,6 +243,6 @@
   };
 
   $(function () {
-    $('[data-toggle="distpicker"]').distpicker();
+    $('[datetostring-toggle="distpicker"]').distpicker();
   });
 });

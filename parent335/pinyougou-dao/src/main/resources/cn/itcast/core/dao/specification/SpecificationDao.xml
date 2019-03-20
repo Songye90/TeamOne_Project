@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="cn.itcast.core.pojo.specification.Specification" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="spec_name" property="specName" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -103,7 +104,7 @@
   </delete>
   <insert id="insert" parameterType="cn.itcast.core.pojo.specification.Specification" >
     insert into tb_specification (id, spec_name)
-    values (#{id,jdbcType=BIGINT}, #{specName,jdbcType=VARCHAR})
+    values (#{id,jdbcType=BIGINT}, #{specName,jdbcType=VARCHAR})#{status,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cn.itcast.core.pojo.specification.Specification"
           useGeneratedKeys="true" keyColumn="id" keyProperty="id">
@@ -114,6 +115,8 @@
       </if>
       <if test="specName != null" >
         spec_name,
+      </if><if test="status != null" >
+        status,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -122,6 +125,9 @@
       </if>
       <if test="specName != null" >
         #{specName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>

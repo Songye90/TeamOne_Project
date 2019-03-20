@@ -24,10 +24,10 @@ public class SellerController {
     public Result add(@RequestBody Seller seller){
         try {
             sellerService.add(seller);
-            return new Result(true, "操作成功");
+            return new Result(true, "申请成功");
         } catch (Exception e) {
             e.printStackTrace();
-            return new Result(false, "操作失败");
+            return new Result(false, "申请失败");
         }
     }
 }

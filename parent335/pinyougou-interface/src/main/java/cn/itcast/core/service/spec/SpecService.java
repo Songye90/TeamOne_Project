@@ -48,4 +48,10 @@ public interface SpecService {
      * @return
      */
     List<Map> selectOptionList();
+
+    /**
+     * 申请规格
+     * @param specVo
+     */
+    void apply(SpecVo specVo);
 }

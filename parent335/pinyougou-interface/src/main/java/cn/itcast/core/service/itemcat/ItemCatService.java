@@ -25,4 +25,10 @@ public interface ItemCatService {
      * @return
      */
     List<ItemCat> findAll();
+
+    /**
+     * 分类申请
+     * @param itemCat
+     */
+    void add(ItemCat itemCat);
 }

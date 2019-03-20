@@ -10,7 +10,7 @@ import cn.itcast.core.entity.PageResult;
 import cn.itcast.core.pojo.order.OrderItem;
 import cn.itcast.core.pojo.order.OrderItemQuery;
 import cn.itcast.core.pojo.order.OrderItemQuery.Criteria;
-import cn.itcast.core.service.searchOrede.SearchOrderService;
+import cn.itcast.core.service.searchOrder.SearchOrderService;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;

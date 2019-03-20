@@ -8,7 +8,7 @@ $(function () {
             })
 //    $.ajax ({
 //        type:"GET",
-//        url:"../data/list-data.json",
+//        url:"../datetostring/list-datetostring.json",
 //        dataType:"json",
 //        cache:false,
 //        success:function(data){

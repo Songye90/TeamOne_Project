@@ -37,4 +37,12 @@ public interface UserService {
 
     UserHot findUserHotByDate(String date);
 
+    /**
+     * 用户 我的订单查询
+     * @param page
+     * @param rows
+     * @param userId
+     * @return
+     */
+    public PageResult findAll(Integer page, Integer rows, String userId);
 }

@@ -1,10 +1,12 @@
 package cn.itcast.core.user;
 
+import cn.itcast.core.entity.PageResult;
 import cn.itcast.core.entity.Result;
 import cn.itcast.core.pojo.user.User;
 import cn.itcast.core.service.user.UserService;
 import cn.itcast.core.utils.checkphone.PhoneFormatCheckUtils;
 import com.alibaba.dubbo.config.annotation.Reference;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -51,4 +53,17 @@ public class UserController {
             return new Result(false, "注册失败");
         }
     }
+
+    /**
+     * 用户 我的订单查询
+     * @param page
+     * @param rows
+     * @return
+     */
+    @RequestMapping("/findAll.do")
+    public PageResult findAll(Integer page, Integer rows) {
+        String name = SecurityContextHolder.getContext().getAuthentication().getName();
+        return userService.findAll(page,rows,name);
+    }
+
 }

@@ -1,12 +1,21 @@
 package cn.itcast.core.service.user;
 
+import cn.itcast.core.dao.item.ItemDao;
+import cn.itcast.core.dao.order.OrderDao;
+import cn.itcast.core.dao.order.OrderItemDao;
 import cn.itcast.core.dao.user.UserDao;
 import cn.itcast.core.entity.PageResult;
+import cn.itcast.core.pojo.item.Item;
+import cn.itcast.core.pojo.order.Order;
+import cn.itcast.core.pojo.order.OrderItem;
+import cn.itcast.core.pojo.order.OrderItemQuery;
+import cn.itcast.core.pojo.order.OrderQuery;
 import cn.itcast.core.pojo.user.User;
 import cn.itcast.core.pojo.user.UserHot;
 import cn.itcast.core.pojo.user.UserQuery;
 import cn.itcast.core.utils.md5.MD5Util;
 import com.alibaba.dubbo.config.annotation.Service;
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.apache.commons.lang.RandomStringUtils;
@@ -19,13 +28,19 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import javax.jms.*;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @Service
 public class UserServiceImpl implements UserService{
+    @Resource
+    private OrderDao orderDao;
+
+    @Resource
+    private OrderItemDao orderItemDao;
+
+    @Resource
+    private ItemDao itemDao;
 
     @Resource
     private JmsTemplate jmsTemplate;
@@ -163,5 +178,67 @@ public class UserServiceImpl implements UserService{
         }else{
             throw new RuntimeException("输入的验证码不正确");
         }
+    }
+
+    /**
+     * 用户 我的订单查询
+     * @param page
+     * @param rows
+     * @param userId
+     * @return
+     */
+    @Override
+    public PageResult findAll(Integer page, Integer rows, String userId) {
+        //设置分页条件
+        PageHelper.startPage(page, rows);
+        //订单查询
+        OrderQuery orderQuery = new OrderQuery();
+        if (userId != null && !"".equals(userId)) {
+            orderQuery.createCriteria().andUserIdEqualTo(userId);
+
+        }
+        List<Order> orderList = orderDao.selectByExample(orderQuery);
+
+        ArrayList<Object> list = new ArrayList<>();
+        if (orderList != null && orderList.size() > 0) {
+            for (Order order : orderList) {
+                //存放规格选项 规格集合
+                Map<String, Object> orderMap = new HashMap<>();
+                //存放规格集合
+                ArrayList<Object> list1 = new ArrayList<>();
+                OrderItemQuery orderItemQuery = new OrderItemQuery();
+                orderItemQuery.createCriteria().andOrderIdEqualTo(order.getOrderId());
+                //查询出所有的订单项
+                List<OrderItem> orderItems = orderItemDao.selectByExample(orderItemQuery);
+                //遍历订单项
+                for (OrderItem orderItem : orderItems) {
+                    //存放订单项  规格集合
+                    HashMap<String, Object> orderItemMap = new HashMap<>();
+                    ArrayList<String> orderItemList = new ArrayList<>();
+                    //查询出订单项的规格集合
+                    Item item = itemDao.selectByPrimaryKey(orderItem.getItemId());
+                    if (item.getSpec() != null) {
+                        Map map = JSON.parseObject(item.getSpec(), Map.class);
+                        Set set = map.keySet();
+                        for (Object o : set) {
+                            orderItemList.add(map.get(o).toString());
+
+                        }
+                    }
+                    //从内向外存  第一步 把订单项和其对应的规格list集合 存到  一个 map里
+                    orderItemMap.put("orderItem", orderItem);
+                    orderItemMap.put("specList", orderItemList);
+                    //第二步  将上一步的map集合 存到一个 List几何中
+                    list1.add(orderItemMap);
+
+                }
+                //把上步的获得的订单项与订单对应的 订单项集合存到一个map中
+                orderMap.put("order", order);
+                orderMap.put("orderItemList", list1);
+                //把上一步获得的map存到list中
+                list.add(orderMap);
+            }
+        }
+        return new PageResult(list.size(),list);
     }
 }
